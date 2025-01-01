@@ -1,6 +1,10 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fluttertest/main.dart';
 import 'package:fluttertest/screen/notificationscreen.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+
+import '../controllers/notification_controller.dart';
 Future<void>handleBackgroundMessage(RemoteMessage message)async{
   print('Title:${message.notification?.title}');
   print('Body:${message.notification?.body}');
@@ -9,9 +13,11 @@ Future<void>handleBackgroundMessage(RemoteMessage message)async{
 }
 class FirebaseApi{
 final _firebaseMessaging=FirebaseMessaging.instance;
-void handleMessage(RemoteMessage?message){
-  if(message==null)return;
-  navigatorKey.currentState?.pushNamed(NotificationScreen.route,arguments: message);
+final NotificationController notificationController = Get.put(NotificationController());
+void handleMessage(RemoteMessage? message) {
+  if (message == null) return;
+  notificationController.updateNotification(message);
+  navigatorKey.currentState?.pushNamed(NotificationScreen.route, arguments: message);
 }
    Future initPushNotifications()async{
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(

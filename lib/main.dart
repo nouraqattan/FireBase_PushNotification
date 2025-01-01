@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertest/api/firebase_api.dart';
 import 'package:fluttertest/screen/homescreen.dart';
 import 'package:fluttertest/screen/notificationscreen.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'firebase_options.dart';
 final navigatorKey=GlobalKey<NavigatorState>();
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -15,9 +15,10 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
       navigatorKey: navigatorKey,
       home: const HomeScreen(),
       routes: {
-        NotificationScreen.route:(context)=>const NotificationScreen(),
+        NotificationScreen.route: (context) => const NotificationScreen(),
       },
     );
   }
